@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket - Umang Railway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="{{ url_for('index') }}" class="flex-shrink-0 flex items-center text-xl font-bold text-blue-600">
+                        Umang Railway
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <a href="{{ url_for('logout') }}" class="text-sm font-medium text-gray-500 hover:text-gray-700">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto mt-10 p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Passenger Form -->
+            <div class="md:col-span-2 bg-white shadow-lg rounded-xl p-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Passenger Details</h1>
+                
+                <form id="booking-form" class="space-y-6">
+                    <!-- This form will only handle ONE passenger for simplicity -->
+                    <div>
+                        <label for="passenger-name" class="block text-sm font-medium text-gray-700">
+                            Passenger Name
+                        </label>
+                        <input type="text" id="passenger-name" name="passenger-name" required
+                               placeholder="e.g., Umang Sharma"
+                               class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label for="passenger-age" class="block text-sm font-medium text-gray-700">
+                                Age
+                            </label>
+                            <input type="number" id="passenger-age" name="passenger-age" required
+                                   placeholder="e.g., 25"
+                                   class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="passenger-gender" class="block text-sm font-medium text-gray-700">
+                                Gender
+                            </label>
+                            <select id="passenger-gender" name="passenger-gender"
+                                    class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- !!! NEW FIELD ADDED HERE !!! -->
+                    <div>
+                        <label for="berth-preference" class="block text-sm font-medium text-gray-700">
+                            Berth Preference (Optional)
+                        </label>
+                        <select id="berth-preference" name="berth-preference"
+                                class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="ANY">No Preference</option>
+                            <option value="LOWER">Lower</option>
+                            <option value="MIDDLE">Middle</option>
+                            <option value="UPPER">Upper</option>
+                            <option value="SIDE">Side (Upper/Lower)</option>
+                        </select>
+                    </div>
+                    <!-- !!! END OF NEW FIELD !!! -->
+                    
+                    <div class="pt-6">
+                        <button type="submit"
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column: Booking Summary -->
+            <div class="md:col-span-1">
+                <div class="bg-white shadow-lg rounded-xl p-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-4">Booking Summary</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Train:</span>
+                            <span id="summary-train-name" class="font-medium text-gray-900 text-right">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Date:</span>
+                            <span id="summary-journey-date" class="font-medium text-gray-900">Loading...</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Class:</span>
+                            <span id="summary-seat-class" class="font-medium text-gray-900">Loading...</span>
+                        </div>
+                        <div class="border-t border-dashed my-4"></div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Base Fare:</span>
+                            <span id="summary-base-fare" class="font-medium text-gray-900">₹0.00</span>
+                        </div>
+                        <!-- Add more fees here if needed -->
+                        <div class="border-t my-4"></div>
+                        <div class="flex justify-between text-2xl font-bold">
+                            <span class="text-gray-900">Total:</span>
+                            <span id="summary-total-fare" class="text-blue-600">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Stations - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Navbar -->
+    <nav class="bg-gray-800 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="{{ url_for('admin_dashboard') }}" class="flex-shrink-0 flex items-center text-xl font-bold">Admin Panel</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('admin_dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Dashboard</a>
+                    <a href="{{ url_for('manage_trains') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Trains</a>
+                    <a href="{{ url_for('manage_stations') }}" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-900">Stations</a>
+                    <a href="{{ url_for('manage_routes') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Routes</a>
+                    <a href="{{ url_for('view_users') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Users</a>
+                    <a href="{{ url_for('index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700" target="_blank">View Site</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto mt-10 p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Manage Stations</h1>
+            <a href="{{ url_for('add_station') }}" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700">
+                + Add New Station
+            </a>
+        </div>
+        <!-- Stations Table -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 font-medium text-gray-600">Code</th>
+                        <th class="px-6 py-3 font-medium text-gray-600">Station Name</th>
+                        <th class="px-6 py-3 font-medium text-gray-600">Latitude</th>
+                        <th class="px-6 py-3 font-medium text-gray-600">Longitude</th>
+                        <th class="px-6 py-3 font-medium text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for station in stations %}
+                    <tr>
+                        <td class="px-6 py-4 font-medium text-gray-900">{{ station.station_code }}</td>
+                        <td class="px-6 py-4 text-gray-700">{{ station.station_name }}</td>
+                        <td class="px-6 py-4 text-gray-700">{{ station.latitude }}</td>
+                        <td class="px-6 py-4 text-gray-700">{{ station.longitude }}</td>
+                        <td class="px-6 py-4 flex space-x-2">
+                            <a href="{{ url_for('edit_station', station_id=station.station_id) }}" class="px-3 py-1 bg-yellow-500 text-white text-xs font-medium rounded-md hover:bg-yellow-600">
+                                Edit
+                            </a>
+                            <form action="{{ url_for('delete_station', station_id=station.station_id) }}" method="POST" onsubmit="return confirm('Are you sure? This may break routes.');">
+                                <button type="submit" class="px-3 py-1 bg-red-600 text-white text-xs font-medium rounded-md hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

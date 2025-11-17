@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Umang Railway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS (for the map) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Style for the map modal */
+        #map-modal-content { height: 70vh; width: 80vw; }
+        #map-container { height: 100%; width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar (placeholder) -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="{{ url_for('index') }}" class="flex-shrink-0 flex items-center text-xl font-bold text-blue-600">
+                        Umang Railway
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <a href="{{ url_for('logout') }}" class="text-sm font-medium text-gray-500 hover:text-gray-700">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto mt-10 p-6">
+        <!-- Search results will be loaded here by search.js -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Search Results</h1>
+            <!-- !!! NEW MAP BUTTON !!! -->
+            <button id="view-map-btn" class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700">
+                View Route Map
+            </button>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="text-center my-10">
+            <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-gray-600 mt-2">Finding the best routes for you...</p>
+        </div>
+
+        <!-- Train Results Container -->
+        <div id="results-container" class="space-y-6">
+            <!-- Search results will be injected here -->
+        </div>
+    </div>
+
+    <!-- Map Modal (Hidden by default) -->
+    <div id="map-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-2xl" id="map-modal-content">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h2 class="text-2xl font-bold text-gray-800">Route Visualization</h2>
+                <button id="close-map-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <!-- Map will be loaded here -->
+            <div id="map-container" class="p-4">
+                <p id="map-loading-text">Loading map...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS (for the map) -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <!-- AntPath JS (for animated lines) -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-ant-path@1.1.2/dist/leaflet-ant-path.min.js"></script>
+    <!-- Your Search JS -->
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+</body>
+</html>

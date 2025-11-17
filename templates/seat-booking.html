@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/railway-styles.css') }}">
+    <script src="{{ url_for('static', filename='js/booking.js') }}" defer></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+</head>
+<body class="bg-[#121c2c] flex items-center justify-center min-h-screen text-gray-200">
+    <div class="card-glass rounded-2xl p-8 max-w-4xl w-full text-center">
+        <div class="flex items-center justify-center mb-6">
+            <div class="bg-green-500 rounded-full w-16 h-16 flex items-center justify-center text-white text-3xl">
+                <i class="ph-check-circle-fill"></i>
+            </div>
+        </div>
+        <h1 class="text-3xl font-bold mb-2">Booking Confirmed!</h1>
+        
+        <!-- 
+          --- THIS IS THE FIX ---
+          I changed {{ booking.pnr }} to {{ booking.pnr_number }} to match the data from main.py
+        -->
+        <p class="text-xl text-gray-400 mb-6">PNR: <span id="pnr-number" class="font-mono">{{ booking.pnr_number }}</span></p>
+
+        <div class="bg-transparent rounded-lg p-6 text-left shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Tickets Summary</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
+                <div>
+                    <p class="text-sm text-gray-400">Train Name:</p>
+                    <p class="font-medium">{{ booking.train_name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Passenger Name:</p>
+                    <p class="font-medium">{{ booking.passenger_name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Age:</p>
+                    <p class="font-medium">{{ booking.age }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Departure:</p>
+                    <p class="font-medium">{{ booking.from_station }} ({{ booking.departure_time }})</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Arrival:</p>
+                    <p class="font-medium">{{ booking.to_station }} ({{ booking.arrival_time }})</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Gender:</p>
+                    <p class="font-medium">{{ booking.gender }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Allocated Seat/Berth:</p>
+                    <p class="font-medium">{{ booking.seat_class }}</p>
+                </div>
+            </div>
+        </div>
+        <a href="/" class="mt-8 inline-block px-8 py-3 text-lg font-semibold rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg">Return to Dashboard</a>
+    </div>
+</body>
+</html>
+

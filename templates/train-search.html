@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/railway-styles.css') }}">
+    <script src="{{ url_for('static', filename='js/search.js') }}" defer></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+</head>
+<body class="bg-gray-900 flex min-h-screen text-gray-200">
+
+    <aside class="w-64 bg-[#1a253a] p-6 shadow-2xl rounded-tr-3xl rounded-br-3xl hidden md:flex flex-col">
+        <div class="flex items-center mb-10">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-blue-500 flex items-center justify-center text-xl font-bold">B</div>
+            <span class="text-2xl font-bold ml-2">Biol</span>
+        </div>
+        <nav class="flex flex-col space-y-2">
+            <a href="/" class="flex items-center p-3 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">
+                <i class="ph-house-fill text-xl mr-3"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="/search" class="flex items-center p-3 rounded-lg bg-orange-500 text-white shadow-lg">
+                <i class="ph-magnifying-glass-fill text-xl mr-3"></i>
+                <span class="font-medium">Train Search</span>
+            </a>
+            <!-- CORRECTED LINK to /book-ticket route -->
+            <a href="/book-ticket" class="flex items-center p-3 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">
+                <i class="ph-ticket-fill text-xl mr-3"></i>
+                <span class="font-medium">Book Tickets</span>
+            </a>
+            <!-- CORRECTED LINK to /manage-bookings route -->
+            <a href="/manage-bookings" class="flex items-center p-3 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">
+                <i class="ph-clipboard-text-fill text-xl mr-3"></i>
+                <span class="font-medium">Manage Bookings</span>
+            </a>
+            <a href="/pnr" class="flex items-center p-3 rounded-lg hover:bg-orange-500 hover:text-white transition-colors">
+                <i class="ph-file-text-fill text-xl mr-3"></i>
+                <span class="font-medium">PNR Status</span>
+            </a>
+        </nav>
+        <!-- Added Logout link (visible when user is logged in) -->
+        <a href="/logout" class="mt-auto flex items-center p-3 rounded-lg text-red-400 hover:bg-red-800/20 transition-colors">
+            <i class="ph-sign-out-fill text-xl mr-3"></i>
+            <span class="font-medium">Logout</span>
+        </a>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-10">
+        <header class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-8">
+            <div class="flex-1 w-full md:w-auto relative">
+                <i class="ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                <input type="text" placeholder="Search" id="search-query" class="p-3 w-full rounded-full bg-[#1a253a] border border-transparent focus:border-orange-500 focus:outline-none transition-colors">
+            </div>
+            <div class="flex items-center space-x-4 ml-0 md:ml-4">
+                <i class="ph-bell-fill text-2xl text-gray-400 hover:text-white cursor-pointer"></i>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-xl font-bold">J</div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-xl font-bold">L</div>
+            </div>
+        </header>
+
+        <section class="card-glass rounded-3xl p-6">
+            <form id="train-search-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <input type="text" id="from-station" placeholder="From Station" class="p-3 rounded-xl bg-[#121c2c] border border-gray-600 focus:ring-2 focus:ring-orange-500">
+                <input type="text" id="to-station" placeholder="To Station" class="p-3 rounded-xl bg-[#121c2c] border border-gray-600 focus:ring-2 focus:ring-orange-500">
+                <input type="date" id="departure-date" class="p-3 rounded-xl bg-[#121c2c] border border-gray-600 focus:ring-2 focus:ring-orange-500">
+                <div class="col-span-1 sm:col-span-2 lg:col-span-3">
+                     <button type="submit" class="w-full px-6 py-3 text-lg font-semibold rounded-full bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">Search</button>
+                </div>
+            </form>
+
+            <div id="loading-spinner" class="hidden text-center py-8">
+                <svg class="animate-spin h-10 w-10 text-orange-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+
+            <div id="train-results-container" class="overflow-x-auto rounded-xl shadow-inner hidden">
+                <table class="min-w-full bg-transparent divide-y divide-gray-700">
+                    <thead class="bg-[#2a3c5c]">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider"></th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider">Train Number</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider">Train Name</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider">Departure Time</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider">Arrival Time</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider">Seat Availability</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wider"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="train-results-body" class="divide-y divide-gray-700">
+                        </tbody>
+                </table>
+            </div>
+
+            <div id="error-message" class="hidden text-center text-red-400 py-8">
+                No trains found for this route.
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>

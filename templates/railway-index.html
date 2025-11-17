@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/railway-styles.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <nav class="bg-[#1a253a] p-6 shadow-xl">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-blue-500 flex items-center justify-center text-xl font-bold">R</div>
+                <span class="text-xl font-bold">RAILWAY MANAGEMENT SYSTEM</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                {% if session.user_id %}
+                <a href="/manage-bookings" class="text-gray-400 hover:text-white transition-colors">Manage</a>
+                <a href="/logout" class="text-red-400 hover:text-red-300 transition-colors">Logout</a>
+                {% else %}
+                <a href="/login" class="text-gray-400 hover:text-white transition-colors">Login</a>
+                <a href="/register" class="text-gray-400 hover:text-white transition-colors">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section relative min-h-screen flex items-center justify-center text-center p-4">
+        <div class="card-glass relative z-10 p-8">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 animate-fade-in">Your Journey Starts Here</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300 animate-fade-in-2">Book your train tickets with ease and convenience.</p>
+
+            <form id="search-form" class="bg-[#1a253a] p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-2xl mx-auto flex flex-col items-center space-y-4 animate-fade-in-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                    <input type="text" id="from" placeholder="From Station" class="p-3 w-full rounded-lg bg-[#121c2c] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <input type="text" id="to" placeholder="To Station" class="p-3 w-full rounded-lg bg-[#121c2c] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <input type="date" id="date" class="p-3 w-full rounded-lg bg-[#121c2c] text-white focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+                <button type="submit" class="w-full md:w-auto px-8 py-3 mt-4 text-lg font-semibold rounded-full bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Search Trains
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

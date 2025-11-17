@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Umang Railway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Navbar -->
+    <nav class="bg-gray-800 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="{{ url_for('admin_dashboard') }}" class="flex-shrink-0 flex items-center text-xl font-bold">
+                        Admin Panel
+                    </a>
+                </div>
+                <!-- Links for Admin Navigation -->
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('admin_dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium bg-gray-900">Dashboard</a>
+                    <a href="{{ url_for('manage_trains') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Trains</a>
+                    <!-- !!! NEW LINKS !!! -->
+                    <a href="{{ url_for('manage_stations') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Stations</a>
+                    <a href="{{ url_for('manage_routes') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Routes</a>
+                    <a href="{{ url_for('view_users') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">Users</a>
+                    <a href="{{ url_for('index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700" target="_blank">View Site</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto mt-10 p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-medium text-gray-600">Bookings Today</h2>
+                <p class="text-4xl font-bold text-blue-600">{{ stats.bookings_today }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-medium text-gray-600">Total Revenue</h2>
+                <p class="text-4xl font-bold text-green-600">₹{{ "%.2f"|format(stats.total_revenue or 0) }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-medium text-gray-600">Total Users</h2>
+                <p class="text-4xl font-bold text-purple-600">{{ stats.total_users }}</p>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="mt-10 bg-white shadow-lg rounded-xl p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+            <div class="flex flex-wrap gap-4">
+                <a href="{{ url_for('add_train') }}"
+                   class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700">
+                    + Add New Train
+                </a>
+                <a href="{{ url_for('add_station') }}"
+                   class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700">
+                    + Add New Station
+                </a>
+                <a href="{{ url_for('add_route') }}"
+                   class="px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700">
+                    + Add New Route
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
